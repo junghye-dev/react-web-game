@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[인프런] 웹 게임을 만들며 배우는 React - 리액트 첫 컴포넌트 만들기</title>
+  <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script></head>
+<body>
+  <div id="root"></div>
+  <!-- 결과: <div id="root"><button>Like</button></div> -->
+  <script>
+    const e = React.createElement;
+
+    class LikeButton extends React.Component {
+      constructor(props) {
+        super(props);
+      }
+
+      render() {
+        return e('button', null, 'Like'); // <button>Like</button> 을 만들'겠다'. (만들'었다'가 아님)
+      }
+    }
+  </script>
+  <script>
+    // LikeButton을 실제로  DOM에 붙인다. 어디에? '#root'에.
+    ReactDOM.render(e(LikeButton), document.querySelector('#root'));
+  </script>
+</body>
+</html>
