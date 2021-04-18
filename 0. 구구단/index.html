@@ -14,28 +14,33 @@
   <div id="root"></div>
   <!-- Babel 변환이 필요한 script 부분에 type="text/babel" 지정 -->
   <script type="text/babel">
-    class LikeButton extends React.Component {
+    class GuGuDan extends React.Component {
       constructor(props) {
         super(props);
         this.state = {
-          liked: false,
+          first: Math.ceil(Math.random() * 9),
+          second: Math.ceil(Math.random() * 9),
+          value: '',
+          result: '',
         }
       }
 
       render() {
-        return <button type="submit" onClick={() => this.setState({liked: true})}>
-            { this.state.liked ? 'liked' : 'like'}
-          </button>
-        // JSX (JS + XML)
-        // html이 아니라 xml인 이유? 닫는 처리 꼭 해줘야함. 엄격함. 예를 들어 <LikeButton /> 이렇게 닫는 / 처리 꼭 해줘야하는게 xml과 더 비슷
-        // 이 html 태그 형태의 꺽쇠는 자바스크립트에서 지원하지 않기 때문에 이대로는 오류가 난다.
-        // 따라서 이를 변환해주는 babel을 사용해야 함. 
+        return (
+          <div>
+            <div>{this.state.first}곱하기 {this.state.second}는?</div>
+            <form action="">
+              <input type="number" value={this.state.value} onChange={(e) => { this.setState({value: e.target.value})}} />
+              <button>입력!</button>
+            </form>
+            <div>{this.state.result}</div>
+          </div>
+        )
       }
     }
   </script>
-  <!-- Babel 변환이 필요한 script 부분에 type="text/babel" 지정 -->
   <script type="text/babel">
-    ReactDOM.render(<LikeButton />, document.querySelector('#root'));
+    ReactDOM.render(<GuGuDan />, document.querySelector('#root'));
   </script>
 </body>
 </html>
