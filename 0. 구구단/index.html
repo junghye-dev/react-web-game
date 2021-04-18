@@ -16,10 +16,17 @@
     class LikeButton extends React.Component {
       constructor(props) {
         super(props);
+        this.state = {
+          liked: false,
+        }
       }
 
       render() {
-        return e('button', null, 'Like'); // <button>Like</button> 을 만들'겠다'. (만들'었다'가 아님)
+        return e('button',
+        { onClick: () => {this. setState({ liked: !this.state.liked })}, type: 'submit '},
+        this.state.liked === true ? 'liked' : 'like');
+        // <button type="submit">Like</button>
+        // 상태(state)가 바뀌면 dom에 알아서 바뀐 값을 보여준다! 기존에는 직접 dom 컨트롤을 통해 일일이 했어야했는데.
       }
     }
   </script>
