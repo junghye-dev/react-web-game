@@ -47,14 +47,15 @@
 
       render() {
         return (
-          <div>
+          // CDN으로 가져온 Babel이 <> </> 이건 이해하지 못함. 그래서 <React.Fragment> 쓰는 것.
+          <React.Fragment>
             <div>{this.state.first} 곱하기 {this.state.second}는?</div>
             <form onSubmit={this.onSubmit}>
               <input type="number" value={this.state.value} onChange={this.onChange} />
-              <button>입력!</button>
+              <button type="submit">입력!</button>
             </form>
             <div>{this.state.result}</div>
-          </div>
+          </React.Fragment>
         )
       }
     }
