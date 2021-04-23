@@ -27,11 +27,15 @@
       onSubmit = (e) => {
         e.preventDefault();
         if (parseInt(this.state.value) === (this.state.first * this.state.second)) {
-          this.setState({
-            first: Math.ceil(Math.random() * 9),
-            second: Math.ceil(Math.random() * 9),
-            value: '',
-            result: '딩동댕'
+          // setState에 함수를 넣어서 리턴해주면, 기존의 값과 미래의 값을 명시적으로 구분할 수 있다.
+          // + setState는 비동기로 작동한다.
+          this.setState((prevState) => {
+            return {
+              first: Math.ceil(Math.random() * 9),
+              second: Math.ceil(Math.random() * 9),
+              value: '',
+              result: `딩동댕 ${prevState.value}`
+            }
           })
         } else {
           this.setState({
@@ -54,7 +58,9 @@
               <input type="number" value={this.state.value} onChange={this.onChange} />
               <button type="submit">입력!</button>
             </form>
-            <div>{this.state.result}</div>
+            <div>
+              {this.state.result}
+            </div>
           </React.Fragment>
         )
       }
