@@ -29,6 +29,7 @@
         if (parseInt(this.state.value) === (this.state.first * this.state.second)) {
           // setState에 함수를 넣어서 리턴해주면, 기존의 값과 미래의 값을 명시적으로 구분할 수 있다.
           // + setState는 비동기로 작동한다.
+          // + setState가 실행되면 render 함수를 다시 실행한다.(리렌더링 된다)
           this.setState((prevState) => {
             return {
               first: Math.ceil(Math.random() * 9),
@@ -37,11 +38,14 @@
               result: `딩동댕 ${prevState.value}`
             }
           })
+          this.input.focus();
+          // document.querySelector('input').focus()와 같다고 보면 된다.
         } else {
           this.setState({
             value: '',
             result: '땡'
           })
+          this.input.focus();
         }
       };
 
@@ -49,13 +53,18 @@
         this.setState({value: e.target.value});
       };
 
+      // DOM에 직접적으로 접근 가능하도록 한다.
+      input;
+
+      // 이렇게 따로 함수를 빼주지 않으면 render 재실행 될 때마다 필요한 함수를 다시 만들기 때문에 성능에 좋지 않다.
+      onRefInput = (somethingFromReact) => this.input = somethingFromReact;
+
       render() {
         return (
-          // CDN으로 가져온 Babel이 <> </> 이건 이해하지 못함. 그래서 <React.Fragment> 쓰는 것.
           <React.Fragment>
             <div>{this.state.first} 곱하기 {this.state.second}는?</div>
             <form onSubmit={this.onSubmit}>
-              <input type="number" value={this.state.value} onChange={this.onChange} />
+              <input ref={this.onRefInput} type="number" value={this.state.value} onChange={this.onChange} />
               <button type="submit">입력!</button>
             </form>
             <div>
