@@ -14,69 +14,48 @@
   <div id="root"></div>
   <!-- Babel 변환이 필요한 script 부분에 type="text/babel" 지정 -->
   <script type="text/babel">
-    class GuGuDan extends React.Component {
-      constructor(props) {
-        super(props);
-        this.state = {
-          first: Math.ceil(Math.random() * 9),
-          second: Math.ceil(Math.random() * 9),
-          value: '',
-          result: '',
-        }
-      }
-      onSubmit = (e) => {
+    const GuGuDan = () => {
+      const [first, setFirst] = React.useState(Math.ceil(Math.random() * 9));
+      const [second, setSecond] = React.useState(Math.ceil(Math.random() * 9));
+      const [value, setValue] = React.useState('');
+      const [result, setResult] = React.useState('');
+      const inputRef = React.useRef(null);
+
+      const handleChange = (e) => {
+        setValue(e.target.value);
+      }; 
+      
+      const handleSubmit = (e) => {
         e.preventDefault();
-        if (parseInt(this.state.value) === (this.state.first * this.state.second)) {
-          // setState에 함수를 넣어서 리턴해주면, 기존의 값과 미래의 값을 명시적으로 구분할 수 있다.
-          // + setState는 비동기로 작동한다.
-          // + setState가 실행되면 render 함수를 다시 실행한다.(리렌더링 된다)
-          this.setState((prevState) => {
-            return {
-              first: Math.ceil(Math.random() * 9),
-              second: Math.ceil(Math.random() * 9),
-              value: '',
-              result: `딩동댕 ${prevState.value}`
-            }
-          })
-          this.input.focus();
-          // document.querySelector('input').focus()와 같다고 보면 된다.
+        console.log(value);
+        
+        if (value == first * second) {
+          setResult('딩동댕');
+          setValue('');
+          setFirst(Math.ceil(Math.random() * 9));
+          setSecond(Math.ceil(Math.random() * 9));
+          inputRef.current.focus();
         } else {
-          this.setState({
-            value: '',
-            result: '땡'
-          })
-          this.input.focus();
+          setResult('땡');
+          setValue('');
+          inputRef.current.focus();
         }
       };
 
-      onChange = (e) => {
-        this.setState({value: e.target.value});
-      };
-
-      // DOM에 직접적으로 접근 가능하도록 한다.
-      input;
-
-      // 이렇게 따로 함수를 빼주지 않으면 render 재실행 될 때마다 필요한 함수를 다시 만들기 때문에 성능에 좋지 않다.
-      onRefInput = (somethingFromReact) => this.input = somethingFromReact;
-
-      render() {
-        return (
-          <React.Fragment>
-            <div>{this.state.first} 곱하기 {this.state.second}는?</div>
-            <form onSubmit={this.onSubmit}>
-              <input ref={this.onRefInput} type="number" value={this.state.value} onChange={this.onChange} />
-              <button type="submit">입력!</button>
-            </form>
-            <div>
-              {this.state.result}
-            </div>
-          </React.Fragment>
-        )
-      }
+      return (
+        <React.Fragment>
+          <div>{first} 곱하기 {second}는?</div>
+          <form onSubmit={handleSubmit}>
+            <input value={value} ref={inputRef} onChange={handleChange} />
+            <button>입력!</button>
+          </form>
+          <div id="result">{result}</div>
+        </React.Fragment>
+      )
     }
   </script>
   <script type="text/babel">
-    ReactDOM.render(<div><GuGuDan /><GuGuDan /><GuGuDan /></div>, document.querySelector('#root'));
+    ReactDOM.render(<div><GuGuDan /></div>, document.querySelector('#root'));
   </script>
 </body>
 </html>
